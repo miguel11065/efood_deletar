@@ -1,60 +1,30 @@
-import PratosModels from '../../models/pratosModels'
 import HeaderRestaurante from '../../components/HeaderRestaurante'
-import { BannerRestaurante1 } from '../../components/Banner'
 import ListaPratos from '../../components/ListaPratos'
-import prato1 from '../../assets/images/prato1.png'
+import { useEffect, useState } from 'react'
+import { RestaurantesAPI } from '../Home'
+import { useParams } from 'react-router-dom'
 
-const lista: PratosModels[] = [
-  {
-    id: 1,
-    image: prato1,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 2,
-    image: prato1,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 3,
-    image: prato1,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 4,
-    image: prato1,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 5,
-    image: prato1,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 6,
-    image: prato1,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
+const Pratos = () => {
+  const { id } = useParams()
+
+  const [lista, setLista] = useState<RestaurantesAPI[]>([])
+
+  useEffect(() => {
+    fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
+      .then((res) => res.json())
+      .then((res) => setLista(res))
+  }, [id])
+
+  if (!lista) {
+    return <h3>Carregando...</h3>
   }
-]
 
-const Pratos = () => (
-  <>
-    <HeaderRestaurante />
-    <BannerRestaurante1 />
-    <ListaPratos pratos={lista} />
-  </>
-)
+  return (
+    <>
+      <HeaderRestaurante />
+      <ListaPratos pratos={lista} />
+    </>
+  )
+}
 
 export default Pratos
